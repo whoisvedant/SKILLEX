@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users List - SkillEx</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
+     <!-- Link to shared stylesheet -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Removed inline styles, now handled in style.css -->
+</head>
+<!-- Added body style for sticky footer -->
+<body style="display: flex; flex-direction: column; min-height: 100vh;">
+
+<!-- Added Header -->
+<header>
+     <div class="logo-area">
+         <a href="index.html"><div>SkillEx Admin</div></a> <!-- Changed title slightly -->
+    </div>
+     <div class="header-links">
+        <a href="index.html">Home</a>
+        <!-- Add other admin specific links if needed -->
+        <a href="#">Logout</a>
+    </div>
+</header>
+
+<!-- Added main tag for structure and sticky footer -->
+<main style="flex-grow: 1;">
+    <!-- Changed container class -->
+    <div class="container-simple">
+         <!-- Added Heading -->
+         <h1 style="text-align: center;">Users List</h1>
+
+        <div class="search-bar">
+            <input type="text" id="search" placeholder="Search users by name, email, role...">
+             <!-- Updated button class -->
+            <button class="btn btn-primary" onclick="searchUsers()">Search</button>
+        </div>
+
+        <table class="user-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <!-- Removed Skills, likely not directly on user table -->
+                    <th>Registered At</th>
+                </tr>
+            </thead>
+            <tbody id="userList">
+                <!-- Data will be inserted dynamically here -->
+                <!-- Example Row (Remove when dynamic data works) -->
+                 <tr>
+                     <td>1</td>
+                     <td>Placeholder User</td>
+                     <td>user@example.com</td>
+                     <td>learner</td>
+                     <td>2024-01-01 10:00:00</td>
+                 </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<!-- Added Footer -->
+<footer>
+    © 2025 SkillEx | All Rights Reserved
+</footer>
+
+<script>
+    async function fetchUsers() {
+        try {
+            // Fetching from combined users endpoint if you create one, or merge client-side
+            // For now, let's assume separate endpoints exist and we merge
+            const learnersRes = await fetch('http://localhost:5000/learners');
+            const trainersRes = await fetch('http://localhost:5000/trainers');
+
+            if (!learnersRes.ok || !trainersRes.ok) {
+                throw new Error('Failed to fetch user data');
+            }
+
+            const learners = await learnersRes.json();
+            const trainers = await trainersRes.json();
+
+            // Add role explicitly if not returned by API
+            const allUsers = [
+                 ...learners.map(u => ({ ...u, role: 'learner' })), // Assuming learners endpoint doesn't return role
+                 ...trainers.map(u => ({ ...u, role: 'trainer' })) // Assuming trainers endpoint doesn't return role
+            ];
+
+            // Sort users by ID or name if desired
+            allUsers.sort((a, b) => a.id - b.id);
+
+
+            const userList = document.getElementById('userList');
+            if(allUsers.length > 0) {
+                userList.innerHTML = allUsers.map(user => `
+                    <tr>
+                        <td>${user.id || 'N/A'}</td>
+                        <td>${user.name || 'N/A'}</td>
+                        <td>${user.email || 'N/A'}</td>
+                        <td>${user.role || 'N/A'}</td>
+                        <td>${user.created_at ? new Date(user.created_at).toLocaleString() : 'N/A'}</td>
+                    </tr>
+                `).join('');
+            } else {
+                 userList.innerHTML = '<tr><td colspan="5" style="text-align:center;">No users found.</td></tr>';
+            }
+
+        } catch (error) {
+             console.error("Error fetching users:", error);
+             const userList = document.getElementById('userList');
+             userList.innerHTML = '<tr><td colspan="5" style="text-align:center; color: red;">Error loading users.</td></tr>';
+        }
+    }
+
+    function searchUsers() {
+        try {
+            const query = document.getElementById('search').value.toLowerCase();
+            const rows = document.querySelectorAll('.user-table tbody tr');
+            let found = false;
+            rows.forEach(row => {
+                // Check if it's the 'no users' or 'error' row
+                 if (row.querySelector('td[colspan="5"]')) {
+                    row.style.display = 'none'; // Hide placeholder/error row during search
+                    return;
+                }
+
+                const display = row.innerText.toLowerCase().includes(query) ? '' : 'none';
+                row.style.display = display;
+                 if(display === '') {
+                    found = true;
+                 }
+            });
+            // Optional: Show a message if no results found after filtering
+            // You might need a dedicated element for this message
+            // console.log(found ? "Results found" : "No results match query");
+
+        } catch (error) {
+             console.error("Error during search:", error);
+        }
+    }
+
+    window.onload = fetchUsers;
+</script>
+</body>
+</html>

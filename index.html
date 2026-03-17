@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillEx - Let's swap the skills!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
+    <!-- Link to Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* CSS Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f1f5f9;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Layout Styles */
+        .container {
+            width: 90%;
+            margin: 20px auto; /* Added top margin */
+            display: grid;
+            grid-template-columns: 280px 1fr; /* Increased sidebar width slightly */
+            grid-gap: 30px; /* Increased gap */
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            background: #ffffff; /* Clean white background */
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Softer shadow */
+            height: fit-content;
+            display: flex;
+            flex-direction: column;
+            gap: 25px; /* Space between sidebar sections */
+        }
+
+        /* Sidebar Profile Section */
+        .sidebar-profile {
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .profile-image {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+            border: 3px solid #3A86FF; /* Highlight color border */
+        }
+
+        .sidebar-profile h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .sidebar-profile p {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .sidebar-profile a {
+            font-size: 0.9rem;
+            color: #3A86FF;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .sidebar-profile a:hover {
+            text-decoration: underline;
+        }
+
+
+        /* Sidebar Search Section */
+        .sidebar-search {
+            display: flex;
+        }
+
+        .sidebar-search input[type="text"] {
+            flex-grow: 1;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 20px 0 0 20px; /* Rounded left corners */
+            font-size: 0.9rem;
+            outline: none;
+        }
+        .sidebar-search input[type="text"]:focus {
+            border-color: #3A86FF;
+        }
+
+        .sidebar-search button {
+            padding: 10px 15px;
+            background-color: #3A86FF;
+            color: white;
+            border: none;
+            border-radius: 0 20px 20px 0; /* Rounded right corners */
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.2s ease;
+        }
+        .sidebar-search button:hover {
+            background-color: #2d6cd6;
+        }
+
+        /* Sidebar Section Heading Styles */
+        .sidebar h3 {
+            font-size: 1.1rem; /* Slightly smaller heading */
+            margin-bottom: 10px;
+            color: #555;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 8px;
+        }
+
+        /* Sidebar Navigation List Styles */
+        .sidebar ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .sidebar li {
+            margin-bottom: 5px; /* Reduced margin */
+        }
+
+        /* Applies to links INSIDE sidebar lists */
+        .sidebar ul a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 15px;
+            border-radius: 8px;
+            color: #333;
+            text-decoration: none;
+            transition: background-color 0.2s ease, color 0.2s ease;
+            font-size: 0.95rem;
+        }
+
+        .sidebar ul a i { /* Icon specific styling inside list links */
+            width: 18px;
+            text-align: center;
+            color: #888;
+            transition: color 0.2s ease;
+        }
+
+        .sidebar ul a:hover {
+            color: #fff;
+            background-color: #3A86FF;
+        }
+
+        .sidebar ul a:hover i {
+            color: #fff;
+        }
+
+        /* Sidebar Button Style (specific for buttons/links outside lists) */
+        .sidebar .sidebar-button { /* More specific selector */
+            display: block;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            text-align: center;
+            font-weight: 600;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            font-size: 0.95rem; /* Match list link size */
+        }
+        .sidebar .sidebar-button:hover {
+             transform: translateY(-2px);
+             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+         .sidebar .sidebar-button i {
+             margin-right: 8px;
+         }
+
+
+        /* Header Styles */
+        header {
+            background-color: #3A86FF;
+            padding: 20px;
+            color: white;
+            font-size: 2rem;
+            font-weight: 600;
+            position: relative;
+        }
+         header .logo-area div {
+             font-size: 2rem;
+             font-weight: 600;
+         }
+         header .logo-area a { color: white; text-decoration: none;}
+
+
+        .header-links {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 20px;
+        }
+
+        .header-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .header-links a:hover {
+            text-decoration: underline;
+        }
+
+        /* Main Content Styles */
+        main {
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .intro {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .intro h2 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 15px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .intro p {
+            font-size: 1.1rem;
+            color: #555;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Search Bar Styles */
+        .search-bar {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .search-bar input[type="text"] {
+            padding: 15px 25px;
+            width: 70%;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 30px;
+            outline: none;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .search-bar input[type="text"]:focus {
+            border-color: #3A86FF;
+            box-shadow: 0 0 8px rgba(58, 134, 255, 0.2);
+        }
+
+        .search-bar button {
+            padding: 15px 35px;
+            background-color: #3A86FF;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-left: -45px; /* Overlap button slightly */
+            transition: background-color 0.2s ease;
+        }
+
+        .search-bar button:hover {
+            background-color: #2d6cd6;
+        }
+
+        /* Divider Section */
+        .divider {
+            margin: 30px auto;
+            text-align: center;
+            font-size: 1.1rem;
+            color: #aaa;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        /* Apply as Trainer Section */
+        .apply-trainer {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .apply-trainer a {
+            text-decoration: none;
+        }
+
+        .apply-trainer button {
+            padding: 15px 40px;
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .apply-trainer button:hover {
+            background-color: #219150;
+            transform: translateY(-2px);
+        }
+
+        /* Skill Category Styles */
+        .skill-category {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .category-card {
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        /* Unique gradients for cards */
+        .category-card:nth-child(1) { background: linear-gradient(135deg, #ff7e5f, #feb47b); } /* Dance */
+        .category-card:nth-child(2) { background: linear-gradient(135deg, #3A86FF, #5E8FFF); } /* Academic */
+        .category-card:nth-child(3) { background: linear-gradient(135deg, #6a11cb, #2575fc); } /* Music */
+        .category-card:nth-child(4) { background: linear-gradient(135deg, #ff9a8b, #ff6a88); } /* Languages */
+        .category-card:nth-child(5) { background: linear-gradient(135deg, #ff6347, #ff4500); } /* Photography */
+        .category-card:nth-child(6) { background: linear-gradient(135deg, #8e44ad, #9b59b6); } /* Programming */
+        .category-card:nth-child(7) { background: linear-gradient(135deg, #f39c12, #f1c40f); } /* Cooking */
+        .category-card:nth-child(8) { background: linear-gradient(135deg, #2ecc71, #27ae60); } /* Gyming */
+
+        .category-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .category-card h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .category-card p {
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .category-card a {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 10px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background-color 0.2s ease;
+            display: inline-block;
+            white-space: nowrap;
+        }
+
+
+        .category-card a:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: #333;
+            color: #ccc;
+            padding: 30px 0;
+            text-align: center;
+            font-size: 0.9rem;
+            margin-top: 60px;
+            border-top: 3px solid #3A86FF;
+        }
+
+        footer a {
+            color: #ff7e5f;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        footer a:hover {
+            color: #fff;
+            text-decoration: underline;
+        }
+
+        /* Media Queries for Responsiveness */
+        @media screen and (max-width: 992px) {
+            .container {
+                grid-template-columns: 1fr;
+                width: 95%;
+                gap: 20px;
+            }
+
+            .sidebar {
+                margin-bottom: 20px;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            header {
+                font-size: 1.6rem;
+                padding: 15px;
+            }
+             .header-links {
+                position: static;
+                margin-top: 10px;
+                justify-content: center;
+            }
+
+            .intro h2 {
+                font-size: 2rem;
+            }
+
+            .search-bar input[type="text"] {
+                width: 65%;
+            }
+             .search-bar button {
+                padding: 15px 25px;
+            }
+             .apply-trainer button {
+                 padding: 12px 30px;
+             }
+            .skill-category {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                 gap: 20px;
+            }
+             .category-card {
+                 padding: 20px;
+             }
+        }
+        @media screen and (max-width: 480px) {
+            .search-bar {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+            .search-bar input[type="text"] {
+                width: 90%;
+                margin-left: 0;
+            }
+            .search-bar button {
+                width: 90%;
+                margin-left: 0;
+            }
+             .header-links {
+                 gap: 15px;
+                 font-size: 0.9rem;
+             }
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-area">
+           <a href="index.html"><div>SkillEx - Let's swap the skills!</div></a>
+        </div>
+        <div class="header-links">
+            <a href="signin.html">Sign In</a>
+            <a href="signup.html">Sign Up</a>
+            <a href="about.html">About</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <aside class="sidebar">
+            <!-- Profile Summary Section -->
+            <div class="sidebar-profile">
+                <img src="placeholder-profile.png" alt="User Profile" class="profile-image"> <!-- Placeholder Image -->
+                <h4>Your Name Here</h4> <!-- Placeholder Name -->
+                <p>Your short bio goes here...</p> <!-- Placeholder Bio -->
+                <a href="profile.html">View Profile</a>
+            </div>
+
+            <!-- Sidebar Search Section -->
+            <div class="sidebar-search">
+                <input type="text" placeholder="Search Skills...">
+                <button><i class="fas fa-search"></i></button>
+            </div>
+
+             <!-- Create Listing Button -->
+             <!-- Assuming create-listing.html is the page to create trainer listings -->
+            <a href="apply-trainer.html" class="sidebar-button"><i class="fas fa-plus-circle"></i> Apply as Trainer</a>
+
+            <!-- Explore Section -->
+            <div>
+                <h3>Explore SkillEx</h3>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="trainers.html"><i class="fas fa-chalkboard-teacher"></i> Browse Trainers</a></li>
+                    <!-- Removed redundant "Find Trainers" link -->
+                    <li><a href="request-skill.html"><i class="fas fa-bullhorn"></i> Request a Skill</a></li>
+                    <li><a href="blog.html"><i class="fas fa-newspaper"></i> Blog</a></li>
+                    <li><a href="about.html"><i class="fas fa-info-circle"></i> About Us</a></li>
+                    <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+                    <li><a href="faq.html"><i class="fas fa-question-circle"></i> FAQ</a></li>
+                </ul>
+            </div>
+
+            <!-- Trending Skills Section -->
+            <div>
+                <h3>Trending Skills</h3>
+                <ul>
+                    <li><a href="trainers.html?skill=Photography"><i class="fas fa-camera-retro"></i> Photography (120)</a></li>
+                    <li><a href="trainers.html?skill=Programming"><i class="fas fa-code"></i> Programming (95)</a></li>
+                    <li><a href="trainers.html?skill=Cooking"><i class="fas fa-utensils"></i> Cooking (78)</a></li>
+                    <li><a href="trainers.html?skill=Languages"><i class="fas fa-language"></i> Languages (65)</a></li>
+                </ul>
+            </div>
+
+            <!-- Conditionally display "Your Account" section based on login state -->
+            <div>
+                <h3>Your Account</h3>
+                <ul>
+                    <li><a href="profile.html"><i class="fas fa-user-circle"></i> Your Profile</a></li>
+                    <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+                    <li><a href="logout.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <main>
+            <div class="intro">
+                <h2>Welcome to SkillEx!</h2>
+                <p>Join SkillEx and connect with others to learn, teach, and grow in various skills. Whether you're into dance, music, academics, or languages, SkillEx is your platform to exchange skills!</p>
+            </div>
+
+            <!-- Search Bar Section -->
+            <div class="search-bar">
+                 <input type="text" id="search" placeholder="What do you want to learn today?...">
+                 <button>Search</button>
+            </div>
+
+            <div class="divider">OR</div>
+
+            <!-- Apply as Trainer Section -->
+            <div class="apply-trainer">
+                <a href="apply-trainer.html"><button>Apply as Trainer</button></a>
+            </div>
+
+            <!-- SKILL CATEGORY SECTION WITH UPDATED LINKS -->
+            <div class="skill-category">
+                <div class="category-card">
+                    <h3>Dance</h3>
+                    <p>Share your passion for dance and learn different styles from skilled dancers.</p>
+                    <a href="trainers.html?skill=Dance">Explore Dance</a>
+                </div>
+
+                <div class="category-card">
+                    <h3>Academic</h3>
+                    <p>Exchange knowledge in subjects like mathematics, science, and history.</p>
+                    <a href="trainers.html?skill=Academic">Explore Academic</a>
+                </div>
+
+                <div class="category-card">
+                    <h3>Music</h3>
+                    <p>Learn music from experienced artists and share your own musical journey.</p>
+                    <a href="trainers.html?skill=Music">Explore Music</a>
+                </div>
+
+                <div class="category-card">
+                    <h3>Languages</h3>
+                    <p>Enhance your language skills by connecting with speakers from around the world.</p>
+                    <a href="trainers.html?skill=Languages">Explore Languages</a>
+                </div>
+
+                <div class="category-card">
+                    <h3>Photography</h3>
+                    <p>Learn the art of photography and capture moments like a pro!</p>
+                    <a href="trainers.html?skill=Photography">Explore Photography</a>
+                </div>
+                <div class="category-card">
+                    <h3>Programming</h3>
+                    <p>Master programming languages and build powerful applications with experienced developers.</p>
+                    <a href="trainers.html?skill=Programming">Explore Programming</a>
+                </div>
+                <div class="category-card">
+                    <h3>Cooking</h3>
+                    <p>Discover new recipes and cooking techniques from talented chefs.</p>
+                    <a href="trainers.html?skill=Cooking">Explore Cooking</a>
+                </div>
+                <div class="category-card">
+                    <h3>Gyming</h3>
+                    <p>Improve your fitness, strength, and overall health with expert gym trainers.</p>
+                    <a href="trainers.html?skill=Gyming">Explore Gyming</a>
+                </div>
+            </div>
+            <!-- END SKILL CATEGORY SECTION -->
+
+        </main>
+    </div>
+
+    <footer>
+        <p>© 2025 SkillEx | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+    </footer>
+
+</body>
+</html>

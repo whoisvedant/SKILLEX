@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About - SkillEx</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
+  <!-- Link to shared stylesheet -->
+  <link rel="stylesheet" href="style.css">
+  <style>
+      /* Optional: Page specific adjustments if needed */
+      .about-content h3 { /* Example specific style */
+          color: var(--primary-dark); /* Darker blue for subheadings */
+          margin-top: 30px;
+          font-size: 1.8rem;
+      }
+      .about-content p {
+          font-size: 1.1rem;
+          line-height: 1.8;
+          margin-bottom: 1.5em; /* Slightly more space */
+      }
+  </style>
+</head>
+<!-- Added body style for sticky footer -->
+<body style="display: flex; flex-direction: column; min-height: 100vh;">
+
+<!-- Added Header -->
+<header>
+    <div class="logo-area">
+         <a href="index.html"><div>SkillEx</div></a>
+    </div>
+     <div class="header-links">
+        <a href="signin.html">Sign In</a>
+        <a href="signup.html">Sign Up</a>
+        <a href="trainers.html">Browse Trainers</a>
+        <!-- Keep About link or remove if preferred -->
+        <a href="about.html">About</a>
+    </div>
+</header>
+
+<!-- Added main tag for structure and sticky footer -->
+<main style="flex-grow: 1;">
+    <!-- Changed container class and added card class -->
+    <div class="container-simple card about-content"> <!-- Added about-content class for specific styles -->
+      <h1 style="text-align: center; color: var(--primary-color);">About SkillEx</h1> <!-- Used variable -->
+      <p>SkillEx is a platform designed to bring people together to learn and teach various skills. Whether you're looking to enhance your career, pick up a hobby, or exchange expertise, SkillEx provides a collaborative environment for people to share knowledge and skills across various domains.</p>
+
+      <div class="mission">
+        <h3>Our Mission</h3>
+        <p>To create a community where learning is not just about education but about shared experiences and personal growth. We aim to bridge the gap between knowledge seekers and knowledge sharers.</p>
+      </div>
+
+      <div class="vision">
+        <h3>Our Vision</h3>
+        <p>To build a global network that empowers individuals through skill exchange, helping people learn and grow in areas such as academics, dance, music, languages, and more.</p>
+      </div>
+    </div>
+</main>
+
+<!-- Added Footer -->
+<footer>
+    <p>© 2025 SkillEx | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+</footer>
+
+</body>
+</html>

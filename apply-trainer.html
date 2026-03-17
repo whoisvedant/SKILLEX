@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply as Trainer - SkillEx</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
+    <!-- Link to shared stylesheet -->
+    <link rel="stylesheet" href="style.css">
+     <style>
+        /* Add page-specific centering styles here if needed, or rely on body flex */
+        main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Added Header -->
+     <header>
+         <div class="logo-area">
+             <a href="index.html"><div>SkillEx</div></a>
+        </div>
+         <div class="header-links">
+            <a href="signin.html">Sign In</a>
+            <a href="signup.html">Sign Up</a>
+            <a href="about.html">About</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- Changed class to auth-container and added specific class for width adjustment if needed -->
+        <div class="auth-container apply-trainer-container"> <!-- Added apply-trainer-container class -->
+            <h2>Apply as Trainer</h2>
+            <form id="applyTrainerForm" enctype="multipart/form-data">
+                 <!-- Added form-group divs and labels -->
+                 <div class="form-group">
+                     <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" placeholder="Enter your full name" required>
+                 </div>
+                 <div class="form-group">
+                     <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="Enter your email" required>
+                 </div>
+                 <div class="form-group">
+                     <label for="password">Create Password (for separate login if approved)</label>
+                    <input type="password" id="password" placeholder="Create a secure password" required>
+                 </div>
+                  <div class="form-group">
+                     <label for="experience">Years of Experience</label>
+                    <input type="text" id="experience" placeholder="e.g., 5+ years" required>
+                 </div>
+                  <div class="form-group">
+                      <label for="expertise">Area(s) of Expertise</label>
+                    <input type="text" id="expertise" placeholder="e.g., Photography, Python, Guitar" required>
+                 </div>
+                  <div class="form-group">
+                      <label for="bio">Short Bio</label>
+                    <textarea id="bio" placeholder="Tell learners about yourself and your teaching style" required></textarea>
+                 </div>
+                  <div class="form-group">
+                      <label for="document">Upload Supporting Document (Optional CV, Certificate etc.)</label>
+                      <!-- Marked as not required for initial setup -->
+                    <input type="file" id="document" name="document">
+                 </div>
+                 <!-- Changed button classes -->
+                <button type="submit" class="btn btn-primary btn-block">Submit Application</button>
+            </form>
+            <!-- Updated Link -->
+            <p>Already applied or have an account? <a href="signin.html">Sign In here</a></p>
+        </div>
+    </main>
+
+     <!-- Added Footer -->
+     <footer>
+        <p>© 2025 SkillEx | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+    </footer>
+
+    <script>
+        // Keep existing JS, maybe add better feedback
+        document.getElementById("applyTrainerForm").addEventListener("submit", async function(event) {
+            event.preventDefault();
+
+            // Check if file input exists and has a file selected
+            const documentInput = document.getElementById("document");
+            const documentFile = documentInput.files.length > 0 ? documentInput.files[0] : null;
+
+            const formData = new FormData();
+            formData.append("fullName", document.getElementById("fullName").value);
+            formData.append("email", document.getElementById("email").value);
+            formData.append("password", document.getElementById("password").value);
+            formData.append("experience", document.getElementById("experience").value);
+            formData.append("expertise", document.getElementById("expertise").value);
+            formData.append("bio", document.getElementById("bio").value);
+            // Only append the document if one was selected
+            if (documentFile) {
+                formData.append("document", documentFile);
+            }
+
+
+             try { // Added basic try...catch
+                const response = await fetch("http://localhost:5000/apply-trainer", {
+                    method: "POST",
+                    body: formData // No Content-Type header needed for FormData
+                });
+
+                const result = await response.json();
+
+                if(response.ok) {
+                    alert(result.message || "Application submitted successfully.");
+                    // Optionally clear the form or redirect
+                    // document.getElementById("applyTrainerForm").reset();
+                    // window.location.href = 'thank-you.html';
+                } else {
+                     alert("Submission failed: " + (result.message || "Unknown error"));
+                }
+
+            } catch (error) {
+                 console.error("Application submission error:", error);
+                 alert("Error submitting application. Please check your connection and try again.");
+            }
+        });
+    </script>
+</body>
+</html>
